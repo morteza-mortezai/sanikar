@@ -13,4 +13,8 @@ export const useAuthStore = defineStore(
     const token = computed(() => user.value?.token );
 
     return { user,  token };
-  });
+  },
+  {
+    persist: true,
+  }
+);
