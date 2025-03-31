@@ -1,3 +1,4 @@
+import type { ILoginResponse } from '@/type/loginResponse';
 import { defineStore } from 'pinia';
 // import { LoginResponse } from 'src/types/login';
 import { ref, computed } from 'vue';
@@ -7,9 +8,9 @@ import { ref, computed } from 'vue';
 export const useAuthStore = defineStore(
   'auth',
   () => {
-    const user = ref<any | null>(null);
+    const user = ref<ILoginResponse | null>(null);
 
-    const isAdmin = computed(() => user.value?.role == 'admin');
+    const token = computed(() => user.value?.token );
 
-    return { user, isAdmin };
+    return { user,  token };
   });

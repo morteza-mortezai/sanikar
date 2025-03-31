@@ -14,7 +14,17 @@ class AuthController extends Controller
             'email'=>'required|string|email|unique:users',
             'password'=>'required|min:5'
         ]);
-        $user=User::create($request->all());
-        return response()->json($user);
+        User::create($request->all());
+        return response()->json(['message' => 'User registered successfully']);
+   }
+
+   public function login(Request $request){
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $user = Auth::user();
+        $token = $user->createToken('authToken')->plainTextToken;
+        return response()->json(['token' => $token, 'user' => $user]);
+    }
+
+    return response()->json(['message' => 'Invalid credentials'], 401);
    }
 }

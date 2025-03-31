@@ -63,16 +63,6 @@ const [password, passwordProps] = defineField('password', quasarConfig)
 
 const { mutate: doLogin, isError} = useMutation({
   mutationFn: register,
-  onSuccess(data) {
-    authStore.user = data.data
-    // const returnUrl = authStore.returnUrl
-    // if (returnUrl) {
-    //   router.push({ name: returnUrl })
-
-    // } else {
-    //   router.go(-1)
-    // }
-  },
   onError(error:any) {
   backendError.value=  error?.response?.data?.message || 'something went wrong'
   },
