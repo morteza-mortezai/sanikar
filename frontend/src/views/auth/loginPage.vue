@@ -55,7 +55,7 @@ const { mutate: doLogin, isError } = useMutation({
   mutationFn: login,
   onSuccess(data) {
     authStore.user = data.data
-    router.push({name:'homePage'})
+    router.push({name:'tasksPage'})
   },
   onError(error: any) {
     backendError.value = error?.response?.data?.message || 'something went wrong'

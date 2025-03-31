@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -7,11 +6,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'homePage',
-      component: HomeView,
+      component: () => import('../layouts/defaultLayout.vue'),
+
       meta:{
         auth:true
-      }
+      },
+      children:[
+        {
+          name:'tasksPage',
+          path:'',
+          component: () => import('../views/HomeView.vue'),
+        }
+      ]
     },
     {
       path: '/auth',

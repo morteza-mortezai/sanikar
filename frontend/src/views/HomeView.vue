@@ -9,7 +9,7 @@ const {data}=useQuery({
 </script>
 
 <template>
-  <main class="max-w-[50rem] mx-auto">
+  <main class="">
   asd
   {{ data }}
   </main>
