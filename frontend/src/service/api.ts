@@ -9,14 +9,15 @@ declare module '@vue/runtime-core' {
 }
 
 const api: AxiosInstance = axios.create({ baseURL: import.meta.env.VITE_API_BASE  })
-const authStore = useAuthStore()
 
 // set token
 api.interceptors.request.use((config) => {
-  const accessToken = authStore.user?.access_token
+  const authStore = useAuthStore()
+  const accessToken = authStore.user?.token || ''
 
   if (accessToken) {
     config.headers.Authorization = 'Bearer ' + accessToken
+    // config.withCredentials=true
   }
 
   return config

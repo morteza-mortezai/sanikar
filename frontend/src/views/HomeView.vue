@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query';
+import { getTasks } from '@/service/task/getTasks';
+
+const {data}=useQuery({
+  queryKey:['getTasks'],
+  queryFn:getTasks
+})
 </script>
 
 <template>
-  <main class="bg-red-100">
-   dddd
+  <main class="max-w-[50rem] mx-auto">
+  asd
+  {{ data }}
   </main>
 </template>
