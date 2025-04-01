@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     public function index(){
-        return response()->json(Task::all());
+        return response()->json(Task::where('user_id',auth()->user()->id)->get());
     }
 
     public function store(Request $request){
