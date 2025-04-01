@@ -7,21 +7,36 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(){
-        return response()->json(Task::where('user_id',auth()->user()->id)->get());
+    public function index()
+    {
+        return response()->json(Task::where('user_id', auth()->id())->get());
     }
 
-    public function store(Request $request){
-        $request->validate([
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description'=>'required|string'
+            'description' => 'required|string'
         ]);
-        $task=Task::create([
-            'title'=> $request->title,
-            'description'=> $request->description,
-            'user_id'=> auth()->user()->id,
-            'status'=>'pending'
+
+        $task = Task::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'user_id' => auth()->id(),
+            'status' => 'pending'
         ]);
-        return response()->json($task);
+
+        return response()->json($task, 201);
+    }
+
+    public function destroy(Task $task)
+    {
+        // Ensure the authenticated user owns the task
+        if ($task->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $task->delete();
+        return response()->json(['message' => 'Deleted successfully']);
     }
 }

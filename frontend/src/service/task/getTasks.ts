@@ -1,7 +1,7 @@
-import type { ILoginbody } from "@/type/loginBody";
 import { api } from "../api";
-import type { ILoginResponse } from "@/type/loginResponse";
+import type { ITask } from "@/type/task/task";
 
-export function getTasks(){
-    return api.get<ILoginResponse>('/tasks')
+export async function getTasks(){
+    const {data}=await api.get<ITask[]>('/tasks')
+    return data
 }
