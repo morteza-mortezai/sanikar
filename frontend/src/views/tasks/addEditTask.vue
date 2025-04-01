@@ -7,8 +7,8 @@
         {{ isEdit ? 'Edit Task' : 'Add New Task' }}
       </h1>
     </div>
-    <form @submit.prevent="onSubmit" class="border rounded p-8 flex flex-col gap-4  ">
-      <div v-if="isError" role="alert" class="alert alert-error">
+    <form @submit.prevent="onSubmit" class="border rounded p-8 grid grid-cols-2 gap-4  ">
+      <div v-if="isError || isUpdateError" role="alert" class="alert alert-error col-span-2">
         <span>{{ backendError }}</span>
       </div>
       <div>
@@ -39,11 +39,11 @@
           {{ endDateProps['error-message'] }}
         </div>
       </div>
-      <select class="select select-sm" v-model="status">
+      <select class="select  " v-model="status">
         <option value="pending">pending</option>
         <option value="completed">Completed</option>
       </select>
-      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update' : '+ Add' }}</button>
+      <button type="submit" class="btn btn-success  col-span-2">{{ isEdit ? 'Update' : '+ Add' }}</button>
     </form>
   </main>
 </template>
@@ -117,10 +117,16 @@ watch(data, (task) => {
 const { mutate: doCreateTask, isError } = useMutation({
   mutationFn: createTask,
   onSuccess: () => router.push({ name: 'tasksPage' }),
+  onError(error){
+    backendError.value=error?.response?.data?.message ?? 'something went wrong'
+  }
 });
-const { mutate: doEditTask } = useMutation({
+const { mutate: doEditTask ,isError:isUpdateError} = useMutation({
   mutationFn: editTask,
   onSuccess: () => router.push({ name: 'tasksPage' }),
+  onError(error){
+    backendError.value=error?.response?.data?.message ?? 'something went wrong'
+  }
 });
 
 // Submit Handler

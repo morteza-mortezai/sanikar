@@ -1,28 +1,27 @@
 <script setup lang="ts">
-import { useQuery,useMutation,useQueryClient } from '@tanstack/vue-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query';
 import { getTasks } from '@/service/task/getTasks';
 import { deleteTask } from '@/service/task/deleteTask';
 import { updateTaskStatus } from '@/service/task/updateTaskStatus';
 import { useRouter } from 'vue-router';
 
 // init
-const queryClient = useQueryClient(); 
-const router=useRouter()
+const queryClient = useQueryClient();
 
 // methods
 const { data: tasks } = useQuery({
   queryKey: ['getTasks'],
   queryFn: getTasks
 })
-const { isPending:deleting,mutate:doDeleteTask } = useMutation({
+const { isPending: deleting, mutate: doDeleteTask } = useMutation({
   mutationFn: deleteTask,
-  onSuccess(){
-    queryClient.invalidateQueries({ queryKey: ['getTasks'] });  
+  onSuccess() {
+    queryClient.invalidateQueries({ queryKey: ['getTasks'] });
   }
 })
 const { mutate: doUpdateTaskStatus } = useMutation({
   mutationFn: updateTaskStatus,
-  onSuccess(){
+  onSuccess() {
     queryClient.invalidateQueries({ queryKey: ['getTasks'] })
   }
 });
@@ -45,12 +44,15 @@ const { mutate: doUpdateTaskStatus } = useMutation({
           </p>
         </div>
         <div class="flex gap-1 ">
-          <select class="select select-sm" @change="(v)=>doUpdateTaskStatus({taskId:task.id,status:v.target?.value})" :value="task.status">
+          <select class="select select-sm" @change="(v) => doUpdateTaskStatus({ taskId: task.id, status: v.target?.value })"
+            :value="task.status">
             <option value="pending">pending</option>
             <option value="completed">Completed</option>
           </select>
-          <RouterLink   :to="{name:'editTaskPage',params:{taskId:task.id}}" class="btn btn-info btn-dash btn-sm">Edit</RouterLink>
-          <button :disabled="deleting" @click="doDeleteTask(task.id)" class="btn btn-error btn-dash btn-sm">Delete</button>
+          <RouterLink :to="{ name: 'editTaskPage', params: { taskId: task.id } }" class="btn btn-info btn-dash btn-sm">Edit
+          </RouterLink>
+          <button :disabled="deleting" @click="doDeleteTask(task.id)"
+            class="btn btn-error btn-dash btn-sm">Delete</button>
         </div>
       </li>
     </ul>

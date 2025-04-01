@@ -17,18 +17,18 @@ class TaskController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date|after_or_equal:start_date',  
-            'status' => 'sometimes|string|in:pending,completed', 
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'string|in:pending,completed',
         ]);
-    
+
         $task = Task::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'user_id' => auth()->id(),
-            'start_date' => $validated['start_date'] ,  
-            'end_date' => $validated['end_date'] ,
-            'status' => $validated['status'] ?? 'pending',  
+            'start_date' => $validated['start_date'] ?? null,
+            'end_date' => $validated['end_date'] ?? null,
+            'status' => $validated['status'] ,
         ]);
 
         return response()->json($task, 201);
@@ -49,11 +49,11 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $validated = $request->validate([
-            'title' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string',
-            'status' => 'sometimes|string|in:pending,completed',
-            'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date|after_or_equal:start_date',  
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'nullable|string|in:pending,completed',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         $task->update($validated);
@@ -66,10 +66,10 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $validated = $request->validate([
-            'status' => 'string|in:pending,completed',
+            'status' => 'required|string|in:pending,completed',
         ]);
         $task->update($validated);
-        return response()->json(['message' => 'Status updated successfully', '' => $task]);
+        return response()->json(['message' => 'Status updated successfully', 'task' => $task]);
     }
     public function show(Task $task)
     {
