@@ -34,9 +34,8 @@ import { useRouter } from 'vue-router';
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/yup';
 import * as yup from 'yup';
-import { REQUIRED } from '@/const/validationMsg'
 import { useAuthStore } from '@/stores/auth';
-import quasarConfig from '@/utils/validationConfig';
+import validationConfig from '@/utils/validationConfig';
 
 // init
 const authStore = useAuthStore()
@@ -57,9 +56,9 @@ const { defineField, handleSubmit } = useForm({
 
 // states
 const backendError = ref('')
-const [name, nameProps] = defineField('name', quasarConfig)
-const [email, emailProps] = defineField('email', quasarConfig)
-const [password, passwordProps] = defineField('password', quasarConfig)
+const [name, nameProps] = defineField('name', validationConfig)
+const [email, emailProps] = defineField('email', validationConfig)
+const [password, passwordProps] = defineField('password', validationConfig)
 
 const { mutate: doLogin, isError} = useMutation({
   mutationFn: register,

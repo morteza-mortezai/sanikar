@@ -31,12 +31,44 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        // Ensure the authenticated user owns the task
         if ($task->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $task->delete();
         return response()->json(['message' => 'Deleted successfully']);
+    }
+    public function update(Request $request, Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $validated = $request->validate([
+            'title' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'status' => 'sometimes|string|in:pending,completed'
+        ]);
+
+        $task->update($validated);
+
+        return response()->json(['message' => 'Task updated successfully', 'task' => $task]);
+    }
+    public function updateStatus(Request $request, Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $validated = $request->validate([
+            'status' => 'string|in:pending,completed',
+        ]);
+        $task->update($validated);
+        return response()->json(['message' => 'Status updated successfully', '' => $task]);
+    }
+    public function show(Task $task)
+    {
+        if ($task->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        return response()->json($task);
     }
 }
