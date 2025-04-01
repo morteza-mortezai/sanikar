@@ -19,13 +19,31 @@
         </div>
       </div>
       <div>
-        <input placeholder="Description*" name="description" :class="['input ', { 'input-error': descriptionProps.error }]" type="text"
-          v-model="description">
+        <input placeholder="Description*" name="description"
+          :class="['input ', { 'input-error': descriptionProps.error }]" type="text" v-model="description">
         <div v-show="descriptionProps['error-message']" class="validator-hint">
           {{ descriptionProps['error-message'] }}
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update' : '+Add' }}</button>
+      <div>
+        <input placeholder="Start*" name="start" :class="['input ', { 'input-error': startDateProps.error }]"
+          type="date" v-model="startDate">
+        <div v-show="startDateProps['error-message']" class="validator-hint">
+          {{ startDateProps['error-message'] }}
+        </div>
+      </div>
+      <div>
+        <input placeholder="End*" name="start" :class="['input ', { 'input-error': endDateProps.error }]" type="date"
+          v-model="endDate">
+        <div v-show="endDateProps['error-message']" class="validator-hint">
+          {{ endDateProps['error-message'] }}
+        </div>
+      </div>
+      <select class="select select-sm" v-model="status">
+        <option value="pending">pending</option>
+        <option value="completed">Completed</option>
+      </select>
+      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update' : '+ Add' }}</button>
     </form>
   </main>
 </template>
@@ -48,7 +66,10 @@ const router = useRouter();
 // Validation Schema
 const schema = toTypedSchema(yup.object({
   title: yup.string().required(),
-  description: yup.string().required()
+  description: yup.string().required(),
+  start_date: yup.string().optional().nullable(),
+  end_date: yup.string().optional().nullable(),
+  status: yup.string().oneOf(['pending', 'completed']),
 }));
 
 // Form
@@ -57,13 +78,17 @@ const { defineField, handleSubmit, setValues } = useForm({
   initialValues: {
     title: '',
     description: '',
+    status: 'pending'
   }
 });
 
 // Fields
 const backendError = ref('');
-const [title, titleProps] = defineField('title',validationConfig);
-const [description, descriptionProps] = defineField('description',validationConfig);
+const [title, titleProps] = defineField('title', validationConfig);
+const [description, descriptionProps] = defineField('description', validationConfig);
+const [startDate, startDateProps] = defineField('start_date', validationConfig);
+const [endDate, endDateProps] = defineField('end_date', validationConfig);
+const [status] = defineField('status', validationConfig);
 
 // Computed
 const isEdit = computed(() => !!props.taskId);
@@ -80,7 +105,10 @@ watch(data, (task) => {
   if (task) {
     setValues({
       title: task.title,
-      description: task.description
+      description: task.description,
+      start_date: task.start_date,
+      end_date: task.end_date,
+      status: task.status
     });
   }
 });

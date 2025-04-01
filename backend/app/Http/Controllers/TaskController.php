@@ -16,14 +16,19 @@ class TaskController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'start_date' => 'sometimes|date',
+            'end_date' => 'sometimes|date|after_or_equal:start_date',  
+            'status' => 'sometimes|string|in:pending,completed', 
         ]);
-
+    
         $task = Task::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'user_id' => auth()->id(),
-            'status' => 'pending'
+            'start_date' => $validated['start_date'] ,  
+            'end_date' => $validated['end_date'] ,
+            'status' => $validated['status'] ?? 'pending',  
         ]);
 
         return response()->json($task, 201);
@@ -46,7 +51,9 @@ class TaskController extends Controller
         $validated = $request->validate([
             'title' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
-            'status' => 'sometimes|string|in:pending,completed'
+            'status' => 'sometimes|string|in:pending,completed',
+            'start_date' => 'sometimes|date',
+            'end_date' => 'sometimes|date|after_or_equal:start_date',  
         ]);
 
         $task->update($validated);
