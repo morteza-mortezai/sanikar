@@ -24,7 +24,7 @@ const { isPending:deleting,mutate:doDeleteTask } = useMutation({
   <main class="mt-4 rounded-sm bg-grey-100">
     <div class="flex justify-between items-center mb-4">
       <h1>Tasks</h1>
-      <RouterLink :to="{ name: 'createTaskPage' }" class="btn btn-primary">+ Add New</RouterLink>
+      <RouterLink :to="{ name: 'createTaskPage' }" class="btn btn-soft btn-success">+ Add New</RouterLink>
     </div>
     <ul>
       <li v-for="(task, i) in tasks" :key="i" class="mb-2 p-2 rounded  bg-[#eee] flex justify-between items-center">
@@ -35,7 +35,10 @@ const { isPending:deleting,mutate:doDeleteTask } = useMutation({
             {{ task.description }}
           </p>
         </div>
-        <button :disabled="deleting" @click="doDeleteTask(task.id)" class="btn btn-error btn-dash btn-sm">Delete</button>
+        <div>
+          <RouterLink   :to="{name:'editTaskPage',params:{taskId:task.id}}" class="btn btn-info btn-dash btn-sm">Edit</RouterLink>
+          <button :disabled="deleting" @click="doDeleteTask(task.id)" class="btn btn-error btn-dash btn-sm">Delete</button>
+        </div>
       </li>
     </ul>
 

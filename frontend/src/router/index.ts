@@ -21,6 +21,12 @@ const router = createRouter({
           name:'createTaskPage',
           path:'create',
           component: () => import('../views/tasks/addEditTask.vue'),
+        },
+        {
+          name:'editTaskPage',
+          path:'edit/:taskId',
+          component: () => import('../views/tasks/addEditTask.vue'),
+          props:true
         }
       ]
     },
@@ -46,10 +52,8 @@ const router = createRouter({
 router.beforeEach((route) => {
   if (route.meta.auth) {
     const authStore = useAuthStore()
-    // const accessToken = SessionStorage.getItem('access_token');
     const accessToken = authStore.token
     if (!accessToken) {
-      // SessionStorage.set('return', String(route.name));
       return { name: 'loginPage' }
     }
   }
