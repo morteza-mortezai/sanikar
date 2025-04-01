@@ -15,7 +15,12 @@ const router = createRouter({
         {
           name:'tasksPage',
           path:'',
-          component: () => import('../views/HomeView.vue'),
+          component: () => import('../views/tasks/tasksIndex.vue'),
+        },
+        {
+          name:'createTaskPage',
+          path:'create',
+          component: () => import('../views/tasks/addEditTask.vue'),
         }
       ]
     },

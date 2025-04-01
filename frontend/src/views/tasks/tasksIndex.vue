@@ -9,7 +9,11 @@ const {data}=useQuery({
 </script>
 
 <template>
-  <main class="">
+  <main class="mt-4 rounded-sm bg-grey-100">
+    <div class="flex justify-between items-center">
+      <h1>Tasks</h1>
+      <RouterLink :to="{name:'createTaskPage'}" class="btn btn-primary">Create</RouterLink>
+    </div>
   asd
   {{ data }}
   </main>

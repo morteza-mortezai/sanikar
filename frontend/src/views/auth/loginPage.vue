@@ -17,7 +17,8 @@
         {{ passwordProps['error-message'] }}
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">register</button>
+    <button type="submit" class="btn btn-primary">login</button>
+    <RouterLink :to="{name:'registerPage'}">Register</RouterLink>
   </form>
 </template>
 <script setup lang="ts">

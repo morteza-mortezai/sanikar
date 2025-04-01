@@ -66,6 +66,10 @@ const { mutate: doLogin, isError} = useMutation({
   onError(error:any) {
   backendError.value=  error?.response?.data?.message || 'something went wrong'
   },
+  onSuccess(data){
+    authStore.user=data.data
+    router.push({name:'tasksPage'})
+  }
 })
 const onSubmit = handleSubmit((values) => {
   doLogin(values)
