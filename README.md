@@ -7,7 +7,7 @@ Ensure you have the following installed on your system:
 - Composer
 - MySQL
 - Laravel (installed globally via Composer, optional)
-- Node.js and NPM (if using frontend assets with Vite)
+- Node.js and NPM 
 
 ## Setup Instructions
 
