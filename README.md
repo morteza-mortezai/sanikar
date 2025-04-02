@@ -48,12 +48,8 @@ php artisan key:generate
 php artisan migrate
 ```
 
-### 6. Seed the Database (Optional)
-```bash
-php artisan db:seed
-```
 
-### 7. Serve the Application
+### 6. Serve the Application
 ```bash
 php artisan serve
 ```
@@ -83,12 +79,16 @@ The application has the following API routes:
 - **Run Queues:** `php artisan queue:work`
 - **Tinker Console:** `php artisan tinker`
 
-## Frontend (if applicable)
+## Frontend  
 If using frontend assets, install dependencies and run:
 ```bash
+cd frontend
 npm install
 npm run dev
 ```
 
-Now you are ready to develop with your Laravel application!
+ application should now be running at:
+```
+[http://127.0.0.1:8000](http://localhost:5173/auth/login)
+```
 
