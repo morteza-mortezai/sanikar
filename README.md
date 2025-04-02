@@ -80,13 +80,12 @@ The application has the following API routes:
 - **Tinker Console:** `php artisan tinker`
 
 ## Frontend  
-If using frontend assets, install dependencies and run:
+Install dependencies and run:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
  application should now be running at:
 ```
 http://localhost:5173/auth/login
