@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query';
+import {  useMutation, useQueryClient } from '@tanstack/vue-query';
 import { deleteTask } from '@/service/task/deleteTask';
 import { updateTaskStatus } from '@/service/task/updateTaskStatus';
 import TaskFilters from '@/components/taskFilters.vue';
