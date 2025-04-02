@@ -74,11 +74,11 @@ class TaskController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         $validated = $request->validate([
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'nullable|string|in:pending,completed',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'string|in:pending,completed',
         ]);
 
         $task->update($validated);

@@ -19,5 +19,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/tasks/{task}', [TaskController::class,'destroy']);
     Route::put('/tasks/{task}', [TaskController::class, 'update']); 
     Route::get('/tasks/{task}', [TaskController::class, 'show']); 
-    Route::put('/tasks/status/{task}', [TaskController::class, 'updateStatus']); 
+    Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus']); 
 });

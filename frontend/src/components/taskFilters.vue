@@ -15,7 +15,7 @@
             <option value="ASC">ASC</option>
             <option value="DESC">DESC</option>
         </select>
-        <buttom @click="useTaskStore().clear()" class="btn btn-error">Clear</buttom>
+        <buttom @click="useTaskStore().clear()" class="btn btn-soft btn-error">Clear</buttom>
     </div>
 </template>
 <script setup lang="ts">
