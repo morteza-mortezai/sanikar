@@ -13,9 +13,9 @@ Ensure you have the following installed on your system:
 
 ### 1. Clone the Repository
 ```bash
- git clone [<your-repository-url>](https://github.com/morteza-mortezai/sanikar)
- cd [<your-project-directory>](https://github.com/morteza-mortezai/sanikar)
-cd backend
+ git clone https://github.com/morteza-mortezai/sanikar
+ cd https://github.com/morteza-mortezai/sanikar
+ cd backend
 ```
 
 ### 2. Install Dependencies
@@ -53,7 +53,7 @@ php artisan migrate
 ```bash
 php artisan serve
 ```
-Your application should now be running at:
+Backend should now be running at:
 ```
 http://127.0.0.1:8000
 ```
@@ -89,6 +89,6 @@ npm run dev
 
  application should now be running at:
 ```
-[http://127.0.0.1:8000](http://localhost:5173/auth/login)
+http://localhost:5173/auth/login
 ```
 
