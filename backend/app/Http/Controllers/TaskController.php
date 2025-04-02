@@ -7,9 +7,34 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Task::where('user_id', auth()->id())->get());
+        $query = Task::where('user_id', auth()->id());
+
+
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+    
+         if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                  ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
+    
+         if ($request->has('sort_by')) {
+            $allowedSortFields = ['created_at', 'start_date', 'end_date', 'status'];
+            $sortBy = in_array($request->sort_by, $allowedSortFields) ? $request->sort_by : 'created_at';
+            $sortDirection = $request->has('sort_type') && in_array($request->sort_type, ['ASC', 'DESC']) ? $request->sort_type : 'DESC';
+    
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('created_at', 'desc'); 
+        }
+        return response()->json($query->get());
+
     }
 
     public function store(Request $request)

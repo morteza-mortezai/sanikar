@@ -49,7 +49,7 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { useMutation, useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import { useRouter } from 'vue-router';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
@@ -62,6 +62,7 @@ import validationConfig from '@/utils/validationConfig';
 // Props
 const props = defineProps<{ taskId?: number }>();
 const router = useRouter();
+const queryClient = useQueryClient();
 
 // Validation Schema
 const schema = toTypedSchema(yup.object({
@@ -116,16 +117,16 @@ watch(data, (task) => {
 // Mutations
 const { mutate: doCreateTask, isError } = useMutation({
   mutationFn: createTask,
-  onSuccess: () => router.push({ name: 'tasksPage' }),
-  onError(error){
-    backendError.value=error?.response?.data?.message ?? 'something went wrong'
+  onSuccess:onSuccess,
+  onError(error) {
+    backendError.value = error?.response?.data?.message ?? 'something went wrong'
   }
 });
-const { mutate: doEditTask ,isError:isUpdateError} = useMutation({
+const { mutate: doEditTask, isError: isUpdateError } = useMutation({
   mutationFn: editTask,
-  onSuccess: () => router.push({ name: 'tasksPage' }),
-  onError(error){
-    backendError.value=error?.response?.data?.message ?? 'something went wrong'
+  onSuccess:onSuccess,
+  onError(error) {
+    backendError.value = error?.response?.data?.message ?? 'something went wrong'
   }
 });
 
@@ -137,5 +138,8 @@ const onSubmit = handleSubmit((values) => {
     doCreateTask(values);
   }
 });
-
+function onSuccess(){
+  queryClient.invalidateQueries({ queryKey: ['getTasks'] })
+  router.push({ name: 'tasksPage' })
+}
 </script>
